@@ -8,9 +8,12 @@ const path = require('path');
 const app = express();
 const port = process.env.PORT || 443;
 
+//board key and certificate name
+const cert_key_name = configs.cert_key_name;
+
 const sslOptions = {
-  key: fs.readFileSync(path.resolve(__dirname, '../certs/board12.key')),
-  cert: fs.readFileSync(path.resolve(__dirname, '../certs/board12.crt'))
+  key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
+  cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
 };
 
 const staticPath = '../UI/dist';

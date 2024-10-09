@@ -47,6 +47,9 @@ const DRIVER_API_URL = "http://localhost:9000/API/Device/";
 //ip on which this api should run
 const NODE_SERVER_IP = configs.node_server_ip;
 
+//board key and certificate name
+const cert_key_name = configs.cert_key_name;
+
 //port on which this api should run
 const NODE_SERVER_PORT = 3100;
 
@@ -1719,8 +1722,8 @@ function validatePassword(pw) {
 
 
 const options = {
-    key: fs.readFileSync('../certs/board12.key'),
-    cert: fs.readFileSync('../certs/board12.crt')
+    key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
+    cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
 }
 //const PORT = process.env.PORT || NODE_SERVER_PORT
 const server = https.createServer(options, app).listen(NODE_SERVER_PORT,NODE_SERVER_IP, console.log('Server started on '+ NODE_SERVER_IP + ':' + NODE_SERVER_PORT + '...'))
