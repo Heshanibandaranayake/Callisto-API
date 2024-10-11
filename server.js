@@ -6,17 +6,22 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 443;
+const port = process.env.PORT || 8080;
 
 //board key and certificate name
-const cert_key_name = configs.cert_key_name;
+//const cert_key_name = configs.cert_key_name;
+
+// const sslOptions = {
+//   key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
+//   cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
+// };
 
 const sslOptions = {
-  key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
-  cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
+  key: fs.readFileSync('key.pem'),
+  cert: fs.readFileSync('cert.pem')
 };
 
-const staticPath = '../UI/dist';
+const staticPath = '../Callisto-UI/dist';
 
 // Serve the static files
 app.use(express.static(staticPath));

@@ -1721,9 +1721,13 @@ function validatePassword(pw) {
 
 
 
+// const options = {
+//     key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
+//     cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
+// }
 const options = {
-    key: fs.readFileSync('../certs/'+cert_key_name+'.key'),
-    cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
 }
 //const PORT = process.env.PORT || NODE_SERVER_PORT
 const server = https.createServer(options, app).listen(NODE_SERVER_PORT,NODE_SERVER_IP, console.log('Server started on '+ NODE_SERVER_IP + ':' + NODE_SERVER_PORT + '...'))

@@ -6,7 +6,7 @@ let pool =
   mariadb.createPool({
     host: "localhost", 
     port: 3306,
-    user: "uroot", 
+    user: "root", 
     password: "root",
     database: "modem_manager" 
   });
