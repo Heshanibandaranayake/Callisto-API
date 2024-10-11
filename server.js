@@ -16,12 +16,19 @@ const port = process.env.PORT || 8080;
 //   cert: fs.readFileSync('../certs/'+cert_key_name+'.crt')
 // };
 
+
+const configs = require('./config/config.json');
+
+//board key and certificate name
+const cert_key_name = configs.cert_key_name;
+const staticPath = '../Callisto-UI/dist';
+
 const sslOptions = {
   key: fs.readFileSync('key.pem'),
   cert: fs.readFileSync('cert.pem')
 };
 
-const staticPath = '../Callisto-UI/dist';
+
 
 // Serve the static files
 app.use(express.static(staticPath));

@@ -12,6 +12,9 @@ const path=require('path');
 const multer = require('multer');
 
 const configs = require('./config/config.json');
+
+//board key and certificate name
+const cert_key_name = configs.cert_key_name;
 //access Levels
 // const adminAccess = require('./Access/roleadmin.json')
 // const userAccess = require('./Access/roleuser.json')
@@ -48,7 +51,7 @@ const DRIVER_API_URL = "http://localhost:9000/API/Device/";
 const NODE_SERVER_IP = configs.node_server_ip;
 
 //board key and certificate name
-const cert_key_name = configs.cert_key_name;
+//const cert_key_name = configs.cert_key_name;
 
 //port on which this api should run
 const NODE_SERVER_PORT = 3100;
@@ -112,7 +115,23 @@ const DRIVER_CODES = {
 	ChangeFH : "ChangeFH"
 };
 
+app.put('/api/logDB', accessToken, async (req, res) => {
+    try{
+        let parameter_name = req.body.parameter_name;
+        let current_val = req.body.current_val;
+        let prev_val = req.body.prev_val;
+        db.pool.query("INSERT INTO parameter_history_log (parameter_name,current_value,prev_value,date_time) VALUES (?)", [parameter_name,current_val,prev_val,date()]);
+        
+    }
+    catch (err) {
+        console.log(err);
 
+        //console.log(counts, (counts.failed/counts.success).toFixed(2));
+        return res.status(500).json({
+            msg: err.message
+        })
+    }
+});
 //QoS file reading
 app.get('/api/qosValues', accessToken, async (req, res) => {
     try {
@@ -494,9 +513,7 @@ app.post('/api/login', async (req, res) => {
                     }else{
                         return res.status(401).json({ msg: "Incorrect Username and/or Password!",remainAttempts:3-user.failedAttempts,role:user.role});
                     }
-                        
-                    
-                    
+                      
                 }
             });
         } else {
@@ -1728,6 +1745,7 @@ function validatePassword(pw) {
 const options = {
     key: fs.readFileSync('key.pem'),
     cert: fs.readFileSync('cert.pem')
+
 }
 //const PORT = process.env.PORT || NODE_SERVER_PORT
 const server = https.createServer(options, app).listen(NODE_SERVER_PORT,NODE_SERVER_IP, console.log('Server started on '+ NODE_SERVER_IP + ':' + NODE_SERVER_PORT + '...'))
