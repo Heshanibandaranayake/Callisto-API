@@ -117,10 +117,11 @@ const DRIVER_CODES = {
 
 app.put('/api/logDB', accessToken, async (req, res) => {
     try{
+        console.log("log data",req.body);
         let parameter_name = req.body.parameter_name;
         let current_val = req.body.current_val;
         let prev_val = req.body.prev_val;
-        db.pool.query("INSERT INTO parameter_history_log (parameter_name,current_value,prev_value,date_time) VALUES (?)", [parameter_name,current_val,prev_val,date()]);
+        db.pool.query("INSERT INTO parameter_history_log (parameter_name,current_value,prev_value) VALUES (?,?,?)", [parameter_name,current_val,prev_val]);
         
     }
     catch (err) {
