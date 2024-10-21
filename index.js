@@ -112,7 +112,8 @@ const DRIVER_CODES = {
     SelfTestResults:"SelfTestResults",
     SelfTestRun:"SelfTestRun",
     ResetGSE:"ResetGSE",
-	ChangeFH : "ChangeFH"
+	ChangeFH : "ChangeFH",
+    SelfTestLowSpeed:"SelfTestLowSpeed",
 };
 
 app.put('/api/logDB', accessToken, async (req, res) => {
