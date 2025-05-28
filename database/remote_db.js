@@ -4,7 +4,7 @@ let mariadb = require('mariadb');
 // Create a connection pool
 let pool = 
   mariadb.createPool({
-    host: "localhost", //add the ip of remote
+    host: "localhost", 
     port: 3306,
     user: "root", 
     password: "root",

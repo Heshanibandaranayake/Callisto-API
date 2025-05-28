@@ -6,7 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8180;
 
 //board key and certificate name
 //const cert_key_name = configs.cert_key_name;
@@ -56,4 +56,4 @@ server.listen(port, () => {
 http.createServer((req, res) => {
   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
   res.end();
-}).listen(80);
+}).listen(81);

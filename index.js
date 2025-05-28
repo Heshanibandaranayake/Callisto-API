@@ -56,6 +56,9 @@ const NODE_SERVER_IP = configs.node_server_ip;
 //port on which this api should run
 const NODE_SERVER_PORT = 3100;
 
+const driverUserName = configs.driver_auth_username;
+const driverPassword = configs.driver_auth_password;
+
 const appKey = "cZB10RXSMR6wGhI";
 const counts = {success: 0, failed: 0};
 
@@ -95,6 +98,7 @@ const DRIVER_CODES = {
     MonitorGlobal:"MonitorGlobal",
     MonitorLayerScape:"MonitorLayerScape",
     MonitorSpartran : "MonitorSpartran",
+    MonitorSystem : "MonitorSystem",
     QoSFirstPriority:"QoSFirstPriority",
     QoSSecondPriority:"QoSSecondPriority",
     QoSThirdPriority:"QoSThirdPriority",
@@ -114,6 +118,12 @@ const DRIVER_CODES = {
     ResetGSE:"ResetGSE",
 	ChangeFH : "ChangeFH"
 };
+
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: false, 
+    cert: fs.readFileSync("server_cert.pem"),
+    key: fs.readFileSync("server_key.key"),
+})
 
 app.put('/api/logDB', accessToken, async (req, res) => {
     try{
@@ -783,22 +793,40 @@ app.get('/api/driver', accessToken, async (req, res) => {
         //       console.log("data",response);
         //       res.json(response);
         // }
+        
+        // console.log("GUI backend request to driver: \n url: ",DRIVER_API_URL + dCodeFinal + "\n auth : {" +
+        //     "\n username:"+ driverUserName,
+        //     "\n password:"+ driverPassword
+        //  + "\n}\n httpAgent");
+
+        // const response = await axios({
+        //     url: DRIVER_API_URL + dCodeFinal,
+        //     method: "get",
+        // });
+
         const response = await axios({
             url: DRIVER_API_URL + dCodeFinal,
             method: "get",
+            // auth: {
+            //     username: driverUserName,
+            //     password: driverPassword
+            // },
+            // httpsAgent: httpsAgent,
+            
         });
+        console.log("Driver authentication success");
         counts.success++;
         
         // if(dCode=='QoS'){
         //     console.log("responce",response.data);
         // }
-        //console.log("data",response.data);
+        
         //console.log(counts, (counts.failed/counts.success).toFixed(2));
         res.status(200).json(response.data);
        
         
     } catch (err) {
-        //console.log(err);
+        console.log(err);
 
         counts.failed++;
         //console.log(counts, (counts.failed/counts.success).toFixed(2));
@@ -847,10 +875,21 @@ app.put('/api/driver', accessToken, async (req, res) => {
             console.log(JSON.stringify(req.body))
 
         }
-       
+        // const response = await axios({
+        //     url: DRIVER_API_URL + "/" + DRIVER_CODES[dCode],
+        //     method: "put",
+           
+        //     data: JSON.stringify(req.body)
+        // });
+
         const response = await axios({
             url: DRIVER_API_URL + "/" + DRIVER_CODES[dCode],
             method: "put",
+            // auth: {
+            //     username: driverUserName,
+            //     password: driverPassword
+            // },
+            // httpsAgent: httpsAgent,
             data: JSON.stringify(req.body)
         });
             
